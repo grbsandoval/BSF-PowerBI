@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Big Sky Fulfillment Dataset"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "bc7f3df9-7f3f-42c2-bf1d-510bb3caa3bb"
+  }
+}
