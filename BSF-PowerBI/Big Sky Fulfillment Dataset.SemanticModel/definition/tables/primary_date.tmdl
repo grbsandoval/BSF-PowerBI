@@ -56,6 +56,7 @@ table primary_date
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Weekday]
+		sortByColumn: 'Weekday Index'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -179,12 +180,21 @@ table primary_date
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Weekday Index'
+		formatString: 0
+		lineageTag: 13959a62-1d62-47d5-98e7-4f25022457c7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Weekday Index]
+
+		annotation SummarizationSetBy = Automatic
+
 	partition primary_date = calculated
 		mode: import
 		source =
 				
 				VAR StartDate = DATE(2023,1,1)
-				VAR EndDate = DATE(2025,12,31)
+				VAR EndDate   = DATE(2025,12,31)
 				
 				VAR TodayDate = TODAY()
 				VAR CurrentWeekStart =
@@ -200,22 +210,22 @@ table primary_date
 				
 				    "Weekday", FORMAT([Date], "dddd"),
 				    "Weekday Short", FORMAT([Date], "ddd"),
-				    "Weekday Number", WEEKDAY([Date], 2),
+				
+				    -- Sunday=1 ... Saturday=7 (use this for sorting weekday names)
+				    "Weekday Index", WEEKDAY([Date], 1),
+				
+				    -- optional: keep/replace your existing weekday number to match Sunday-first
+				    "Weekday Number", WEEKDAY([Date], 1),
 				
 				    "Month-Year", FORMAT([Date], "MM-YYYY"),
-				    "Is Weekend", IF(WEEKDAY([Date], 2) >= 6, "Yes", "No"),
+				    "Is Weekend", IF(WEEKDAY([Date], 1) IN {1, 7}, "Yes", "No"),
 				    "Is Holiday", IF([Date] IN {DATE(2023,12,25), DATE(2024,1,1)}, "Yes", "No"),
 				
 				    "Week Number", WEEKNUM([Date], 1),
 				    "Start of Week", [Date] - WEEKDAY([Date], 1) + 1,
 				
-				    -- 🔹 This Week flag
 				    "This Week",
-				        IF(
-				            [Date] - WEEKDAY([Date], 1) + 1 = CurrentWeekStart,
-				            TRUE,
-				            FALSE
-				        ),
+				        [Date] - WEEKDAY([Date], 1) + 1 = CurrentWeekStart,
 				
 				    "Index", DATEDIFF([Date], EndDate, DAY) + 1,
 				    "Week Index",
