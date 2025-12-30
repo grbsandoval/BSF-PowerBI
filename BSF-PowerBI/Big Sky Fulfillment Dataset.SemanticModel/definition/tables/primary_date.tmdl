@@ -194,7 +194,7 @@ table primary_date
 		source =
 				
 				VAR StartDate = DATE(2023,1,1)
-				VAR EndDate   = DATE(2025,12,31)
+				VAR EndDate   = DATE(2027,12,31)
 				
 				VAR TodayDate = TODAY()
 				VAR CurrentWeekStart =

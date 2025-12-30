@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/reportExtension/1.0.0/schema.json",
+  "name": "extension",
+  "entities": [
+    {
+      "name": "measures_table",
+      "measures": [
+        {
+          "name": "Weekly Forecast Report Title",
+          "dataType": "Text",
+          "expression": "\nVAR Warehouse =\n    SELECTEDVALUE(primary_warehouses[warehouse_code], \"ALL\")\nRETURN\nSWITCH(\n    Warehouse,\n    \"CLT\", \"Weekly Forecast Report ▸ BSF | Charlotte\",\n    \"LAS\", \"Weekly Forecast Report ▸ BSF | Las Vegas\",\n    \"MSO\", \"Weekly Forecast Report ▸ BSF | Missoula\",\n    \"Weekly Forecast Report ▸ BSF\"\n)",
+          "formatString": "General Number"
+        }
+      ]
+    }
+  ]
+}
